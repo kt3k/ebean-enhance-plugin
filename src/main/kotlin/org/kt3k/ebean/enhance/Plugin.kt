@@ -4,8 +4,8 @@ import org.gradle.api.*
 
 public class Plugin : org.gradle.api.Plugin<Project> {
 
-  val EXTENSION_NAME = "enhance"
-  val CONFIGURATION_NAME = "enhance"
+  val EXTENSION_NAME = "ebeanEnhance"
+  val CONFIGURATION_NAME = "ebeanEnhance"
   val ANT_TASK_NAME = "enhanceEbean"
   val TASK_NAME = "enhanceEbean"
 
