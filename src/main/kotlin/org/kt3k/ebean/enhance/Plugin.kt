@@ -2,7 +2,7 @@ package org.kt3k.ebean.enhance
 
 import org.gradle.api.*
 
-public class EnhanceEbeanPlugin : Plugin<Project> {
+public class Plugin : org.gradle.api.Plugin<Project> {
 
   override fun apply(project: Project) {
 
