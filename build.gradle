@@ -12,6 +12,7 @@ buildscript {
 
 apply plugin: 'kotlin'
 apply plugin: 'maven-publish'
+apply plugin: 'signing'
 
 group = 'org.kt3k'
 version = '1.0.0'
@@ -30,6 +31,16 @@ task sourceJar(type: Jar) {
 }
 
 publishing {
+  repositories {
+    maven {
+      credentials {
+        username project.'sonatype.username'
+        password project.'sonatype.password'
+      }
+      url 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
+    }
+  }
+
   publications {
     maven(MavenPublication) {
       groupId 'org.kt3k'
@@ -43,4 +54,8 @@ publishing {
       }
     }
   }
+}
+
+signing {
+  sign configurations.archives
 }
