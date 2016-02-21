@@ -4,25 +4,34 @@ import org.gradle.api.*
 
 public class Plugin : org.gradle.api.Plugin<Project> {
 
+  val EXTENSION_NAME = "enhance"
+  val CONFIGURATION_NAME = "enhance"
+  val ANT_TASK_NAME = "enhanceEbean"
+  val TASK_NAME = "enhanceEbean"
+
   override fun apply(project: Project) {
 
-    val conf = project.getConfigurations().create("enhance")
-    val task = project.task("enhanceEbean")
+    project.extensions.create(EXTENSION_NAME, Extension::class.java)
+
+    project.configurations.create(CONFIGURATION_NAME)
+    project.dependencies.add(CONFIGURATION_NAME, ext(project).agentGroupId + ":" + ext(project).agentArtifactId + ":" + ext(project).agentVersion)
+
+    val task = project.task(TASK_NAME)
 
     task.doLast(object: Action<Task> {
 
       override fun execute(task: Task) {
 
         project.ant.invokeMethod("taskdef", mapOf(
-          "name" to "enhanceEbean",
-          "classname" to "com.avaje.ebean.enhance.ant.AntEnhanceTask",
-          "name" to conf.asPath
+          "name" to ANT_TASK_NAME,
+          "classname" to ext(project).antEnhanceTaskClassName,
+          "classpath" to project.configurations.getByName(CONFIGURATION_NAME).asPath
         ))
 
-        project.ant.invokeMethod("enhanceEbean", mapOf(
-          "classSource" to project.buildDir.absolutePath + "src/main",
-          "packages" to conf,
-          "transformArgs" to "debug=5"
+        project.ant.invokeMethod(ANT_TASK_NAME, mapOf(
+          "classSource" to project.buildDir.absolutePath + ext(project).classFilePath,
+          "packages" to ext(project).packages,
+          "transformArgs" to ext(project).transformArgs
         ))
 
       }
@@ -31,6 +40,10 @@ public class Plugin : org.gradle.api.Plugin<Project> {
 
     (project.property("classes") as Task).dependsOn(task)
 
+  }
+
+  private fun ext(project: Project): Extension {
+    return project.extensions.getByName(EXTENSION_NAME) as Extension
   }
 
 }
