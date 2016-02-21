@@ -3,7 +3,7 @@ package org.kt3k.ebean.enhance
 /**
  * The plugin extension.
  */
-class Extension {
+public open class Extension {
 
   /**
    * The packages to enhance.
