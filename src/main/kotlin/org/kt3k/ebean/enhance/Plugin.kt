@@ -22,13 +22,13 @@ public class Plugin : org.gradle.api.Plugin<Project> {
 
       override fun execute(task: Task) {
 
-        project.ant.invokeMethod("taskdef", mapOf(
+        task.project.ant.invokeMethod("taskdef", mapOf(
           "name" to ANT_TASK_NAME,
           "classname" to ext(project).antEnhanceTaskClassName,
           "classpath" to project.configurations.getByName(CONFIGURATION_NAME).asPath
         ))
 
-        project.ant.invokeMethod(ANT_TASK_NAME, mapOf(
+        task.project.ant.invokeMethod(ANT_TASK_NAME, mapOf(
           "classSource" to project.buildDir.absolutePath + ext(project).classFilePath,
           "packages" to ext(project).packages,
           "transformArgs" to ext(project).transformArgs
