@@ -44,13 +44,44 @@ publishing {
   publications {
     maven(MavenPublication) {
       groupId 'org.kt3k'
-      artifactId 'gradle-ebean-enhance-plugin'
+      artifactId 'ebean-enhance-plugin'
       version '1.0.0'
 
       from components.java
 
       artifact sourceJar {
         classifier 'sources'
+      }
+
+      pom.withXml {
+
+        asNode().children().last + {
+
+          resolveStrategy = Closure.DELEGATE_FIRST
+
+          name 'ebean-enhance-plugin'
+          description 'A gradle plugin for enhancing ebean entities.'
+          url 'https://github.com/kt3k/ebean-enhance-plugin'
+          scm {
+            url 'scm:git+https://github.com/kt3k/ebean-enhance-plugin.git'
+            connection 'scm:git+https://github.com/kt3k/ebean-enhance-plugin.git'
+            developerConnection 'scm:git+https://github.com/kt3k/ebean-enhance-plugin.git'
+          }
+          licenses {
+            license {
+              name 'MIT'
+              url 'https://raw.github.com/kt3k/ebean-enhance-plugin/master/LICENSE'
+              distribution 'repo'
+            }
+          }
+          developers {
+            developer {
+              id 'kt3k'
+              name 'Yoshiya Hinosawa'
+              email 'stibium121@gmail.com'
+            }
+          }
+        }
       }
     }
   }
