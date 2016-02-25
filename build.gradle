@@ -10,9 +10,11 @@ buildscript {
   }
 }
 
+plugins {
+  id 'com.bmuschko.nexus' version '2.3.1'
+}
+
 apply plugin: 'kotlin'
-apply plugin: 'maven-publish'
-apply plugin: 'signing'
 
 group = 'org.kt3k'
 version = '1.0.0'
@@ -26,67 +28,41 @@ dependencies {
   compile gradleApi()
 }
 
-task sourceJar(type: Jar) {
-  from sourceSets.main.allJava
-}
+modifyPom {
+  project {
+    name properties.'pom.name'
+    description properties.'pom.description'
+    url properties.'pom.url'
 
-publishing {
-  repositories {
-    maven {
-      credentials {
-        username project.'sonatype.username'
-        password project.'sonatype.password'
-      }
-      url 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
+    scm {
+      url properties.'pom.scm.url'
+      connection properties.'pom.scm.connection'
+      developerConnection properties.'pom.scm.developer.connection'
     }
-  }
 
-  publications {
-    maven(MavenPublication) {
-      groupId 'org.kt3k'
-      artifactId 'ebean-enhance-plugin'
-      version '1.0.0'
-
-      from components.java
-
-      artifact sourceJar {
-        classifier 'sources'
+    licenses {
+      license {
+        name properties.'pom.license.name'
+        url properties.'pom.license.url'
+        distribution properties.'pom.license.distribution'
       }
+    }
 
-      pom.withXml {
-
-        asNode().children().last() + {
-
-          resolveStrategy = Closure.DELEGATE_FIRST
-
-          name 'ebean-enhance-plugin'
-          description 'A gradle plugin for enhancing ebean entities.'
-          url 'https://github.com/kt3k/ebean-enhance-plugin'
-          scm {
-            url 'scm:git+https://github.com/kt3k/ebean-enhance-plugin.git'
-            connection 'scm:git+https://github.com/kt3k/ebean-enhance-plugin.git'
-            developerConnection 'scm:git+https://github.com/kt3k/ebean-enhance-plugin.git'
-          }
-          licenses {
-            license {
-              name 'MIT'
-              url 'https://raw.github.com/kt3k/ebean-enhance-plugin/master/LICENSE'
-              distribution 'repo'
-            }
-          }
-          developers {
-            developer {
-              id 'kt3k'
-              name 'Yoshiya Hinosawa'
-              email 'stibium121@gmail.com'
-            }
-          }
-        }
+    developers {
+      developer {
+        id properties.'pom.developer.id'
+        name properties.'pom.developer.name'
       }
     }
   }
 }
 
-signing {
-  sign configurations.archives
+extraArchive {
+  sources = true
+  javadoc = true
+  tests = false
+}
+
+nexus {
+  sign = true
 }
