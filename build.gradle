@@ -12,6 +12,7 @@ buildscript {
 
 plugins {
   id 'com.bmuschko.nexus' version '2.3.1'
+  id 'com.gradle.plugin-publish' version '0.9.3'
 }
 
 apply plugin: 'kotlin'
@@ -65,4 +66,18 @@ extraArchive {
 
 nexus {
   sign = true
+}
+
+pluginBundle {
+  website = 'https://github.com/kt3k/ebean-enhance-plugin'
+  vcsUrl = 'https://github.com/kt3k/ebean-enhance-plugin'
+  description = 'A gradle plugin for enhancing ebean entities.'
+  tags = ['ebean', 'orm']
+
+  plugins {
+    ebeanEnhancePlugin {
+      id = 'com.github.kt3k.ebean.enhance'
+      displayName = 'ebean-enhance-plugin'
+    }
+  }
 }
