@@ -1,4 +1,4 @@
-# ebean-enhance-plugin v1.0.1
+# ebean-enhance-plugin v1.0.2
 
 > A gradle plugin for enhancing ebean entities.
 

@@ -1,7 +1,7 @@
 ---
-version: 1.0.1
+version: 1.0.2
 files:
   README.md:
   - ebean-enhance-plugin v%.%.%
   build.gradle:
-  - version = '1.0.0'
+  - version = '%.%.%'
