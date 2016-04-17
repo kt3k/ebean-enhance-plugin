@@ -6,7 +6,7 @@ import org.gradle.api.tasks.TaskAction
 /**
  * The task for enhancing ebean entities.
  */
-class EnhanceEbeanTask : DefaultTask() {
+open class EnhanceEbeanTask : DefaultTask() {
 
   val classFilePath = ""
   val antTaskName = ""
