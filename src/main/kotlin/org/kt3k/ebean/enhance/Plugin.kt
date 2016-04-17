@@ -25,7 +25,7 @@ public class Plugin : org.gradle.api.Plugin<Project> {
     project.dependencies.add(CONFIGURATION_NAME, ext(project).agentGroupId + ":" + ext(project).agentArtifactId + ":" + ext(project).agentVersion)
 
     val taskMain = project.task(mapOf("type" to EnhanceEbeanTask::class.java), MAIN_TASK_NAME)
-    val taskTest = project.task(mapOf("type" to EnhanceEbeanTask::class.java), MAIN_TASK_NAME)
+    val taskTest = project.task(mapOf("type" to EnhanceEbeanTask::class.java), TEST_TASK_NAME)
 
     taskMain.setProperty("antTaskName", ANT_MAIN_TASK_NAME)
     taskTest.setProperty("antTaskName", ANT_TEST_TASK_NAME)
