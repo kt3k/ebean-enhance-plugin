@@ -20,11 +20,15 @@ open class EnhanceEbeanTask : DefaultTask() {
       "classpath" to project.configurations.getByName(CONFIGURATION_NAME).asPath
     ))
 
-    project.ant.invokeMethod(antTaskName, mapOf(
-      "classSource" to project.buildDir.absolutePath + classFilePath,
-      "packages" to ext(project).packages,
-      "transformArgs" to ext(project).transformArgs
-    ))
+    try {
+      project.ant.invokeMethod(antTaskName, mapOf(
+        "classSource" to project.buildDir.absolutePath + classFilePath,
+        "packages" to ext(project).packages,
+        "transformArgs" to ext(project).transformArgs
+      ))
+    } catch (e: RuntimeException) {
+      logger.info(e.message);
+    }
 
   }
 }
