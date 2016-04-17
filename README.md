@@ -36,3 +36,7 @@ The transformation arguments to pass to `AntEnhanceTask` (default `debug=5`)
 # License
 
 MIT
+
+# History
+
+- 2016-04-17   v2.0.5   Enhance classes under the test directory.
