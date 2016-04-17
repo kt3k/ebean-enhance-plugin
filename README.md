@@ -1,4 +1,4 @@
-# ebean-enhance-plugin v2.0.2
+# ebean-enhance-plugin v2.0.3
 
 > A gradle plugin for enhancing ebean entities.
 
@@ -7,7 +7,7 @@
 ```
 plugins {
   id 'java'
-  id 'com.github.kt3k.ebean.enhance' version '2.0.2'
+  id 'com.github.kt3k.ebean.enhance' version '2.0.3'
 }
 
 ebeanEnhance {
