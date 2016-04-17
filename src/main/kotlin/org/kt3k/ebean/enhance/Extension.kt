@@ -36,8 +36,4 @@ public open class Extension {
    */
   var transformArgs = "debug=5"
 
-  /**
-   * Class file path.
-   */
-  var classFilePath = "/classes/main"
 }

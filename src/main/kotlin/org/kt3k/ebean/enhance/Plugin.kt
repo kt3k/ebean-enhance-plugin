@@ -2,12 +2,20 @@ package org.kt3k.ebean.enhance
 
 import org.gradle.api.*
 
-public class Plugin : org.gradle.api.Plugin<Project> {
+const val EXTENSION_NAME = "ebeanEnhance"
+const val CONFIGURATION_NAME = "ebeanEnhance"
+const val ANT_MAIN_TASK_NAME = "enhanceEbeanMain"
+const val ANT_TEST_TASK_NAME = "enhanceEbeanTest"
+const val MAIN_TASK_NAME = "enhanceEbeanMain"
+const val TEST_TASK_NAME = "enhanceEbeanTest"
+const val MAIN_CLASS_FILE_PATH = "/classes/main"
+const val TEST_CLASS_FILE_PATH = "/classes/test"
 
-  val EXTENSION_NAME = "ebeanEnhance"
-  val CONFIGURATION_NAME = "ebeanEnhance"
-  val ANT_TASK_NAME = "enhanceEbean"
-  val TASK_NAME = "enhanceEbean"
+fun ext(project: Project): Extension {
+  return project.extensions.getByName(EXTENSION_NAME) as Extension
+}
+
+public class Plugin : org.gradle.api.Plugin<Project> {
 
   override fun apply(project: Project) {
 
@@ -16,34 +24,21 @@ public class Plugin : org.gradle.api.Plugin<Project> {
     project.configurations.create(CONFIGURATION_NAME)
     project.dependencies.add(CONFIGURATION_NAME, ext(project).agentGroupId + ":" + ext(project).agentArtifactId + ":" + ext(project).agentVersion)
 
-    val task = project.task(TASK_NAME)
+    val taskMain = project.task(mapOf("type" to EnhanceEbeanTask::class.java), MAIN_TASK_NAME)
+    val taskTest = project.task(mapOf("type" to EnhanceEbeanTask::class.java), MAIN_TASK_NAME)
 
-    task.doLast(object: Action<Task> {
+    taskMain.setProperty("antTaskName", ANT_MAIN_TASK_NAME)
+    taskTest.setProperty("antTaskName", ANT_TEST_TASK_NAME)
 
-      override fun execute(task: Task) {
+    taskMain.setProperty("classFilePath", MAIN_CLASS_FILE_PATH)
+    taskTest.setProperty("classFilePath", TEST_CLASS_FILE_PATH)
 
-        task.project.ant.invokeMethod("taskdef", mapOf(
-          "name" to ANT_TASK_NAME,
-          "classname" to ext(project).antEnhanceTaskClassName,
-          "classpath" to project.configurations.getByName(CONFIGURATION_NAME).asPath
-        ))
+    (project.property("classes") as Task).dependsOn(taskMain)
+    (project.property("testClasses") as Task).dependsOn(taskTest)
 
-        task.project.ant.invokeMethod(ANT_TASK_NAME, mapOf(
-          "classSource" to project.buildDir.absolutePath + ext(project).classFilePath,
-          "packages" to ext(project).packages,
-          "transformArgs" to ext(project).transformArgs
-        ))
+    taskMain.dependsOn((project.property("compileJava") as Task))
+    taskTest.dependsOn((project.property("compileTestJava") as Task))
 
-      }
-
-    })
-
-    (project.property("classes") as Task).dependsOn(task)
-
-  }
-
-  private fun ext(project: Project): Extension {
-    return project.extensions.getByName(EXTENSION_NAME) as Extension
   }
 
 }
