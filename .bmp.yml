@@ -3,5 +3,6 @@ version: 2.0.0
 files:
   README.md:
   - ebean-enhance-plugin v%.%.%
+  - version '%.%.%'
   build.gradle:
   - version = '%.%.%'
