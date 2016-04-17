@@ -1,6 +1,7 @@
 package org.kt3k.ebean.enhance
 
 import org.gradle.api.*
+import org.gradle.api.plugins.JavaPlugin
 
 const val EXTENSION_NAME = "ebeanEnhance"
 const val CONFIGURATION_NAME = "ebeanEnhance"
@@ -18,6 +19,8 @@ fun ext(project: Project): Extension {
 public class Plugin : org.gradle.api.Plugin<Project> {
 
   override fun apply(project: Project) {
+
+    project.apply(mapOf("plugin" to JavaPlugin::class.java))
 
     project.extensions.create(EXTENSION_NAME, Extension::class.java)
 
