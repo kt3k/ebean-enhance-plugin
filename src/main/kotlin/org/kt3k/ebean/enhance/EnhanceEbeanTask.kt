@@ -8,8 +8,8 @@ import org.gradle.api.tasks.TaskAction
  */
 open class EnhanceEbeanTask : DefaultTask() {
 
-  val classFilePath = ""
-  val antTaskName = ""
+  var classFilePath = ""
+  var antTaskName = ""
 
   @TaskAction
   fun enhance() {
