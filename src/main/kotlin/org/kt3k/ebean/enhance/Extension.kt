@@ -15,21 +15,21 @@ public open class Extension {
   /**
    * Ebean enhance agent group id.
    */
-  var agentGroupId = "org.avaje.ebeanorm"
+  var agentGroupId = "io.ebean"
 
   /**
    * Ebean enhance agent artifact id.
    */
-  var agentArtifactId = "avaje-ebeanorm-agent"
+  var agentArtifactId = "ebean-agent"
   /**
    * Ebean enhance agent version.
    */
-  var agentVersion = "4.9.1"
+  var agentVersion = "10.1.1"
 
   /**
    *
    */
-  var antEnhanceTaskClassName = "com.avaje.ebean.enhance.ant.AntEnhanceTask"
+  var antEnhanceTaskClassName = "io.ebean.enhance.ant.AntEnhanceTask"
 
   /**
    * Transoformation args for enhance agent.
