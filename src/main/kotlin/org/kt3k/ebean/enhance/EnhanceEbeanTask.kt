@@ -27,7 +27,7 @@ open class EnhanceEbeanTask : DefaultTask() {
         "transformArgs" to ext(project).transformArgs
       ))
     } catch (e: RuntimeException) {
-      logger.info(e.message);
+      logger.info(e.message)
     }
 
   }
