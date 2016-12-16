@@ -1,6 +1,7 @@
 package org.kt3k.ebean.enhance
 
-import org.gradle.api.*
+import org.gradle.api.Project
+import org.gradle.api.Task
 import org.gradle.api.plugins.JavaPlugin
 
 const val EXTENSION_NAME = "ebeanEnhance"
@@ -13,7 +14,7 @@ const val MAIN_CLASS_FILE_PATH = "/classes/main"
 const val TEST_CLASS_FILE_PATH = "/classes/test"
 
 fun ext(project: Project): Extension {
-  return project.extensions.getByName(EXTENSION_NAME) as Extension
+  return project.extensions.getByType(Extension::class.java)
 }
 
 public class Plugin : org.gradle.api.Plugin<Project> {
@@ -25,10 +26,15 @@ public class Plugin : org.gradle.api.Plugin<Project> {
     project.extensions.create(EXTENSION_NAME, Extension::class.java)
 
     project.configurations.create(CONFIGURATION_NAME)
-    project.dependencies.add(CONFIGURATION_NAME, ext(project).agentGroupId + ":" + ext(project).agentArtifactId + ":" + ext(project).agentVersion)
 
-    val taskMain = project.task(mapOf("type" to EnhanceEbeanTask::class.java), MAIN_TASK_NAME)
-    val taskTest = project.task(mapOf("type" to EnhanceEbeanTask::class.java), TEST_TASK_NAME)
+    project.afterEvaluate({
+      project.repositories.mavenCentral()
+      project.repositories.jcenter()
+      project.dependencies.add(CONFIGURATION_NAME, ext(project).agentGroupId + ":" + ext(project).agentArtifactId + ":" + ext(project).agentVersion)
+    })
+
+    val taskMain = project.tasks.create(MAIN_TASK_NAME, EnhanceEbeanTask::class.java)
+    val taskTest = project.tasks.create(TEST_TASK_NAME, EnhanceEbeanTask::class.java)
 
     taskMain.setProperty("antTaskName", ANT_MAIN_TASK_NAME)
     taskTest.setProperty("antTaskName", ANT_TEST_TASK_NAME)
