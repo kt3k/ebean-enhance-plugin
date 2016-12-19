@@ -39,4 +39,5 @@ MIT
 
 # History
 
+- 2016-12-19   v3.0.0   Update Ebean deps.
 - 2016-04-17   v2.0.5   Enhance classes under the test directory.
